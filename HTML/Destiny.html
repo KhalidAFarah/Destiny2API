@@ -23,15 +23,7 @@
         var user;
 
         window.onload = function loadJSON(){
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "../PHP/cache/SQLite.json", true);
-            xhr.onreadystatechange = function(){
-                
-                if(this.readyState === 4 && this.status === 200){
-                    itemJSON = JSON.parse(this.responseText);
-                }
-            }
-            xhr.send()
+            
         }
         
 
@@ -65,19 +57,28 @@
         
         function getCharacterInfo(ID, type, characterId){
             var xhr = new XMLHttpRequest();
+            var character;
             xhr.open("GET", "https://www.bungie.net/Platform/Destiny2/" + type + "/Profile/" + ID + "/Character/" + characterId + "/?components=200, 205", true);
             xhr.setRequestHeader("X-API-Key", apiKey);
             xhr.onreadystatechange = function(){
                 
                 if(this.readyState === 4 && this.status === 200){
                     var json = JSON.parse(this.responseText);
-                    //console.log(json);
+                    console.log(json);
                     //console.log(json.Response.equipment.data.items);
-                    //for(var i = 0; i < json.Response.equipment.data.items.length; i++){
+                    characters = {
+                            emblemBackground : json.Response.character.data.emblemBackgroundPath,
+                            emblemIcon : json.Response.character.data.emblemPath,
+                            lastPlayed : json.Response.character.data.dateLastPlayed,
+                            light : json.Response.character.data.light,
+                            gear : [],
+                    };
+                    for(var i = 0; i < json.Response.equipment.data.items.length; i++){
+                        
                         //getItemInfo(ID, type, characterId, json.Response.equipment.data.items[0].itemInstanceId);
                         getItemData(json.Response.equipment.data.items[0].itemHash);
-                    //}
-               // console.log("ID:" + ID + " type:" + type + "char:"  + characterId);
+                    }
+               
                 }
                 
             }
@@ -102,7 +103,7 @@
                     for(var i = 0; i < profile.profile.data.characterIds.length; i++){
                         //console.log(profile.profile.data.characterIds[i]);
                         //console.log("character: " + i);
-                        getCharacterInfo(ID, type, profile.profile.data.characterIds[i]);
+                        user.characters[i] = getCharacterInfo(ID, type, profile.profile.data.characterIds[i]);
                     }
                 }
             }
@@ -121,6 +122,12 @@
                     var json = JSON.parse(this.responseText);
                     var users = json.Response;
                     //console.log(users[0]);
+                    user = {
+                        displayname: users[0].displayName,
+                        membershipId: users[0].displayName,
+                        membershipType: users[0].membershipType,
+                        characters: [],
+                    };
                     //user = new User(users[0].displayName, users[0].membershipId, users[0].membershipType);
                     getCharacters(users[0].membershipId, users[0].membershipType);
                     
@@ -129,19 +136,6 @@
             xhr.send();
         
         };
-        
-       function manifestLink(){
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "https://www.bungie.net/Platform/Destiny2/Manifest/", true);
-            xhr.setRequestHeader("X-API-Key", apiKey);
-            xhr.onreadystatechange = function(){
-                if(this.readyState === 4 && this.status === 200){
-                    var json = JSON.parse(this.responseText);
-                    console.log(json);
-                }
-            }
-            xhr.send();
-        }
         
         
         
