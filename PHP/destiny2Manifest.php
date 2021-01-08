@@ -159,8 +159,30 @@ function getSingleDefinition($tableName, $id) {
     return isset($results[$id]) ? $results[$id] : false;
 }
 
+function getAmountOfItems($tableName) {
+    $tables = getSetting('tables');
+
+    $key = $tables->{$tableName}[0];
+    //$where = ' WHERE '.(is_numeric($id) ? $key.'='.$id.' OR '.$key.'='.($id-4294967296) : $key.'="'.$id.'"');
+    $results = queryManifest('SELECT COUNT(id) FROM '.$tableName);
+
+    return isset($results) ? $results : false;
+}
+
+function createItemJSON($tableName) {
+    $tables = getSetting('tables');
+
+    $key = $tables->{$tableName}[0];
+    //$where = ' WHERE '.(is_numeric($id) ? $key.'='.$id.' OR '.$key.'='.($id-4294967296) : $key.'="'.$id.'"');
+    $results = queryManifest('SELECT json FROM '.$tableName);
+
+    return $results; //isset($results[$id]) ? $results[$id] : false;
+}
+
 checkManifest();
 
-echo '<pre>Get Gjallarhorn: '.json_encode(getSingleDefinition('DestinyInventoryItemDefinition', 3745990145), JSON_PRETTY_PRINT).'</pre>';
+echo '<pre>Get Gjallarhorn: '.json_encode(getAmountOfItems('DestinyInventoryItemDefinition')).'</pre>';
+
+echo '<pre>Get Gjallarhorn: '.json_encode(getSingleDefinition('DestinyInventoryItemDefinition', 3745990145)).'</pre>';
 
 echo '<pre>DestinyInventoryBucketDefinition: '.json_encode(getDefinition('DestinyInventoryBucketDefinition'), JSON_PRETTY_PRINT).'</pre>';
