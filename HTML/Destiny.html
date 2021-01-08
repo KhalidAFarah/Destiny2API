@@ -3,7 +3,7 @@
 <head>
 <title>Page Title</title>
 </head>
-    <script src="../JS/User.js"></script>
+    
     
 <body>
     <h1 id="header"></h1>
@@ -19,22 +19,33 @@
         var btn = document.getElementById("btn");
         var base = "https://www.bungie.net/Platform";
         var apiKey = "2b4611e007ce4f3bb7883a96ab26fd2e";
-        //var user;
+        var itemJSON;
+        var user;
+
+        window.onload = function loadJSON(){
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "../PHP/cache/SQLite.json", true);
+            xhr.onreadystatechange = function(){
+                
+                if(this.readyState === 4 && this.status === 200){
+                    itemJSON = JSON.parse(this.responseText);
+                }
+            }
+            xhr.send()
+        }
         
 
         
         function getItemData(hashId){
+            var data = new FormData();
+            data.append("itemData",hashId);
             var xhr = new XMLHttpRequest();
-            xhr.open("GET", "../PHP/cache/world_sql_content_4538153d085eb7c87e59c58aefc70fb1.content.zip", true);
-            //xhr.setRequestHeader("X-API-Key", apiKey);
-            xhr.onreadystatechange = function(){
-                
-                if(this.readyState === 4 && this.status === 200){
-                    var json = JSON.parse(this.responseText);
-                    console.log(json)
-                }
+            xhr.open("POST", "../PHP/destiny2Manifest.php");
+            xhr.onload = function(){
+                var json = JSON.parse(this.responseText);
+                console.log(json);
             }
-            xhr.send()
+            xhr.send(data);
         }
         
         function getItemInfo(ID, type, characterId, itemId){
@@ -63,8 +74,8 @@
                     //console.log(json);
                     //console.log(json.Response.equipment.data.items);
                     //for(var i = 0; i < json.Response.equipment.data.items.length; i++){
-                        getItemInfo(ID, type, characterId, json.Response.equipment.data.items[0].itemInstanceId);
-                        //getItemData(json.Response.equipment.data.items[0].itemHash);
+                        //getItemInfo(ID, type, characterId, json.Response.equipment.data.items[0].itemInstanceId);
+                        getItemData(json.Response.equipment.data.items[0].itemHash);
                     //}
                // console.log("ID:" + ID + " type:" + type + "char:"  + characterId);
                 }
