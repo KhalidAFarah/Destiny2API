@@ -6,6 +6,8 @@
     
     
 <body>
+    <script src="../HIDDEN/hidden.js"></script>
+    <script src="../JS/startup.js"></script>
     <h1 id="header"></h1>
     <img id="image">
 
@@ -18,129 +20,12 @@
     <script type="text/javascript">
         var btn = document.getElementById("btn");
         var base = "https://www.bungie.net/Platform";
-        var apiKey = "2b4611e007ce4f3bb7883a96ab26fd2e";
         var itemJSON;
-        var user;
+        //var user;
 
         window.onload = function loadJSON(){
-            
+            createUser()
         }
-        
-
-        
-        function getItemData(hashId){
-            var data = new FormData();
-            data.append("itemData",hashId);
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "../PHP/destiny2Manifest.php");
-            xhr.onload = function(){
-                var json = JSON.parse(this.responseText);
-                console.log(json);
-            }
-            xhr.send(data);
-        }
-        
-        function getItemInfo(ID, type, characterId, itemId){
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "https://www.bungie.net/Platform/Destiny2/" + type + "/Profile/" + ID + "/Item/" + itemId + "/?components=307", true);
-            xhr.setRequestHeader("X-API-Key", apiKey);
-            xhr.onreadystatechange = function(){
-                
-                if(this.readyState === 4 && this.status === 200){
-                    var json = JSON.parse(this.responseText);
-                    console.log(json)
-                }
-            }
-            xhr.send()
-        }
-        
-        
-        function getCharacterInfo(ID, type, characterId){
-            var xhr = new XMLHttpRequest();
-            var character;
-            xhr.open("GET", "https://www.bungie.net/Platform/Destiny2/" + type + "/Profile/" + ID + "/Character/" + characterId + "/?components=200, 205", true);
-            xhr.setRequestHeader("X-API-Key", apiKey);
-            xhr.onreadystatechange = function(){
-                
-                if(this.readyState === 4 && this.status === 200){
-                    var json = JSON.parse(this.responseText);
-                    console.log(json);
-                    //console.log(json.Response.equipment.data.items);
-                    characters = {
-                            emblemBackground : json.Response.character.data.emblemBackgroundPath,
-                            emblemIcon : json.Response.character.data.emblemPath,
-                            lastPlayed : json.Response.character.data.dateLastPlayed,
-                            light : json.Response.character.data.light,
-                            gear : [],
-                    };
-                    for(var i = 0; i < json.Response.equipment.data.items.length; i++){
-                        
-                        //getItemInfo(ID, type, characterId, json.Response.equipment.data.items[0].itemInstanceId);
-                        getItemData(json.Response.equipment.data.items[0].itemHash);
-                    }
-               
-                }
-                
-            }
-            xhr.send();
-        }
-        
-        
-        function getCharacters(ID, type) {
-            
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "https://www.bungie.net/Platform/Destiny2/" + type + "/Profile/" + ID + "/?components=100", true);
-            xhr.setRequestHeader("X-API-Key", apiKey);
-            xhr.onreadystatechange = function(){
-                
-                if(this.readyState === 4 && this.status === 200){
-                    var json = JSON.parse(this.responseText);
-                    var profile = json.Response;
-                    //console.log(json);
-                    //console.log(profile.profile.data.characterIds);
-                    
-                    
-                    for(var i = 0; i < profile.profile.data.characterIds.length; i++){
-                        //console.log(profile.profile.data.characterIds[i]);
-                        //console.log("character: " + i);
-                        user.characters[i] = getCharacterInfo(ID, type, profile.profile.data.characterIds[i]);
-                    }
-                }
-            }
-            xhr.send();
-        }
-        
-        
-        btn.onclick = function createUser() {
-            var name = "Khalidium";
-            var xhr = new XMLHttpRequest();
-
-            xhr.open("GET", "https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayer/-1/" + name, true);
-            xhr.setRequestHeader("X-API-Key", apiKey);
-            xhr.onreadystatechange = function(){
-                if(this.readyState === 4 && this.status === 200){
-                    var json = JSON.parse(this.responseText);
-                    var users = json.Response;
-                    //console.log(users[0]);
-                    user = {
-                        displayname: users[0].displayName,
-                        membershipId: users[0].displayName,
-                        membershipType: users[0].membershipType,
-                        characters: [],
-                    };
-                    //user = new User(users[0].displayName, users[0].membershipId, users[0].membershipType);
-                    getCharacters(users[0].membershipId, users[0].membershipType);
-                    
-                }
-            }
-            xhr.send();
-        
-        };
-        
-        
-        
-        
-        
     </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <?php
 define('COOKIE_FILE', 'cookie.txt');
 define('BUNGIE_URL', 'https://www.bungie.net');
-define('API_KEY', '2b4611e007ce4f3bb7883a96ab26fd2e');
+define('API_KEY', $_POST['key']);
 define('USER_AGENT', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1');
 
 define('SETTING_FILE', 'settings.json');
@@ -184,7 +184,8 @@ function createItemJSON($tableName) {
 //createItemJSON('DestinyInventoryItemDefinition');
 
 //echo '<pre>Get Gjallarhorn: '.json_encode(getAmountOfItems('DestinyInventoryItemDefinition')).'</pre>';
-print_r(json_encode(getSingleDefinition('DestinyInventoryItemDefinition', 3745990145), JSON_PRETTY_PRINT));
+
+print_r(json_encode(getSingleDefinition('DestinyInventoryItemDefinition', $_POST['itemData'])));
 
 //echo '<pre>Get Gjallarhorn: '.json_encode(getSingleDefinition('DestinyInventoryItemDefinition', 3745990145), JSON_PRETTY_PRINT).'</pre>';
 
