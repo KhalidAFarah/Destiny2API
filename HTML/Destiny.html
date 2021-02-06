@@ -44,6 +44,29 @@ function getItemPerk(hashId, character, j, i, Tablename){
     xhr.send(data);
 }
 
+//weapon stats 2 from static weapon
+function getItemStats2(hashId, character, j, i, Tablename, value){
+    //console.log(hashId);
+    var data = new FormData();
+    data.append("tablename", Tablename);
+    data.append("itemData",hashId);
+    data.append("key", apiKey);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "../PHP/destiny2Manifest.php");
+    xhr.onload = function(){
+        var json = JSON.parse(this.responseText);
+        //console.log(json);
+        character.gear[j].staticstats[i] = {
+            description: json.displayProperties.description,
+            name: json.displayProperties.name,
+            hash: json.hash,
+            value: value,   
+        };
+    }
+    xhr.send(data);
+}
+
 //precomputed instanced weapon stats
 function getItemStats(hashId, character, j, i, Tablename, value){
     //console.log(hashId);
@@ -83,6 +106,12 @@ function getItemData(hashId, character, j,  Tablename){
         //console.log(this.responseText);
         //character.gear[j] = json;
         character.gear[j].static = json;
+
+        var stats = Object.keys(json.stats.stats);
+        //console.log(stats)
+        for(var i = 0; i < stats.length; i++){
+            getItemStats2(stats[i], character,j,i,'DestinyStatDefinition', json.stats.stats[stats[i]].value);
+        }
     }
     xhr.send(data);
 }
@@ -96,7 +125,7 @@ function getItemInfo(ID, type, itemInstanceId, character, j){
         
         if(this.readyState === 4 && this.status === 200){
             var json = JSON.parse(this.responseText);
-            console.log(json);
+            //console.log(json);
             var stats = Object.keys(json.Response.stats.data.stats);
             
             for(var i = 0; i < json.Response.perks.data.perks.length; i++){
@@ -136,6 +165,7 @@ function getCharacterInfo(ID, type, characterId, i){
             for(var j = 0; j < json.Response.equipment.data.items.length; j++){
 
                 user.characters[i].gear[j] = {
+                    staticstats: [],
                     stats: [],
                     perks: [],
                     static: "",
