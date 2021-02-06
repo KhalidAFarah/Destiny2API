@@ -184,8 +184,9 @@ function createItemJSON($tableName) {
 //createItemJSON('DestinyInventoryItemDefinition');
 
 //echo '<pre>Get Gjallarhorn: '.json_encode(getAmountOfItems('DestinyInventoryItemDefinition')).'</pre>';
+//echo $_POST['Table'];
 
-print_r(json_encode(getSingleDefinition('DestinyInventoryItemDefinition', $_POST['itemData'])));
+print_r(json_encode(getSingleDefinition($_POST['tablename'] , $_POST['itemData'])));
 
 //echo '<pre>Get Gjallarhorn: '.json_encode(getSingleDefinition('DestinyInventoryItemDefinition', 3745990145), JSON_PRETTY_PRINT).'</pre>';
 

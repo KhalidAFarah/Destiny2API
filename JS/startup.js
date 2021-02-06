@@ -1,8 +1,9 @@
 var user;
 
-function getItemData(hashId, i, j){
+function getItemData(hashId, i, j, Tablename){
     //console.log(character);
     var data = new FormData();
+    data.append("Table", Tablename);
     data.append("itemData",hashId);
     data.append("key", apiKey);
 
@@ -14,6 +15,20 @@ function getItemData(hashId, i, j){
         i.gear[j] = json;
     }
     xhr.send(data);
+}
+function getItemInfo(ID, type, itemInstanceId){
+    var xhr = new XMLHttpRequest();
+    
+    xhr.open("GET", "https://www.bungie.net/Platform/Destiny2/" + type + "/Profile/" + ID + "/Item" + itemInstanceId + "/?components=302, 300, 304", true);
+    xhr.setRequestHeader("X-API-Key", apiKey);
+    xhr.onreadystatechange = function(){
+        
+        if(this.readyState === 4 && this.status === 200){
+            var json = JSON.parse(this.responseText);
+            console.log(json);
+        }
+    }
+    xhr.send();
 }
 
 function getCharacterInfo(ID, type, characterId, i){
@@ -37,8 +52,8 @@ function getCharacterInfo(ID, type, characterId, i){
             user.characters[i] = character;
             for(var j = 0; j < json.Response.equipment.data.items.length; j++){
                 
-                //getItemInfo(ID, type, characterId, json.Response.equipment.data.items[0].itemInstanceId);
-                getItemData(json.Response.equipment.data.items[j].itemHash, user.characters[i], j);
+                getItemData(json.Response.equipment.data.items[j].itemHash, user.characters[i], j, "DestinyInventoryItemDefinition");
+                getItemInfo(ID, type, json.Response.equipment.data.items[0].itemInstanceId);
                 //character.gear[j] = json.Response.equipment.data.items[j].itemHash;
             }
             //console.log(characters);
