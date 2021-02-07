@@ -2,248 +2,83 @@
 <html>
 <head>
 <title>Page Title</title>
+<link rel="stylesheet" href="../CSS/basesite.css">
 </head>
     
     
 <body>
     <script src="../HIDDEN/hidden.js"></script>
-    <!--<script src="../JS/startup.js"></script>-->
-    <h1 id="header"></h1>
-    <img id="image">
+    <script src="../JS/startup.js"></script>
+
+    <div class="maincontainer">
+
+        <div class="weaponscontainer">
+
+            <div class="weaponcontainer">
+                <div class="topitemcontainer">
+                    <img class="itemimg">
+                    <h1 class="itemname"></h1>
+                    <h2 class="itempower"></h2>
+                </div>
+            </div>
+
+            <div class="weaponcontainer">
+                <div class="topitemcontainer">
+                    <img class="itemimg">
+                    <h1 class="itemname"></h1>
+                    <h2 class="itempower"></h2>
+                </div>
+            </div>
+
+            <div class="weaponcontainer">
+                <div class="topitemcontainer">
+                    <img class="itemimg">
+                    <h1 class="itemname"></h1>
+                    <h2 class="itempower"></h2>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
 
     
-    
-    
-    
-    <button id="btn">run</button>
+
     
     <script type="text/javascript">
-        var btn = document.getElementById("btn");
-        var base = "https://www.bungie.net/Platform";
-        var itemJSON;
-        //var user;
 
 ///////////////////////////////////////////////////
-var user;
 
-//instanced weapon perks
-function getItemPerk(hashId, character, j, i, Tablename){
-    //console.log(j);
-    var data = new FormData();
-    data.append("tablename", Tablename);
-    data.append("itemData",hashId);
-    data.append("key", apiKey);
+function weaponview() {
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "../PHP/destiny2Manifest.php");
-    xhr.onload = function(){
-        var json = JSON.parse(this.responseText);
-        //console.log(json);
-        character.gear[j].perks[i] = json;
-    }
-    xhr.send(data);
-}
-
-//weapon stats 2 from static weapon
-function getItemStats2(hashId, character, j, i, Tablename, value){
-    //console.log(hashId);
-    var data = new FormData();
-    data.append("tablename", Tablename);
-    data.append("itemData",hashId);
-    data.append("key", apiKey);
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "../PHP/destiny2Manifest.php");
-    xhr.onload = function(){
-        var json = JSON.parse(this.responseText);
-        //console.log(json);
-        character.gear[j].staticstats[i] = {
-            description: json.displayProperties.description,
-            name: json.displayProperties.name,
-            hash: json.hash,
-            value: value,   
-        };
-    }
-    xhr.send(data);
-}
-
-//precomputed instanced weapon stats
-function getItemStats(hashId, character, j, i, Tablename, value){
-    //console.log(hashId);
-    var data = new FormData();
-    data.append("tablename", Tablename);
-    data.append("itemData",hashId);
-    data.append("key", apiKey);
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "../PHP/destiny2Manifest.php");
-    xhr.onload = function(){
-        var json = JSON.parse(this.responseText);
-        //console.log(json);
-        character.gear[j].stats[i] = {
-            description: json.displayProperties.description,
-            name: json.displayProperties.name,
-            hash: json.hash,
-            value: value,
-        };
-    }
-    xhr.send(data);
-}
-
-
-//static data about weapon like name
-function getItemData(hashId, character, j,  Tablename){
-    //console.log(character);
-    var data = new FormData();
-    data.append("tablename", Tablename);
-    data.append("itemData",hashId);
-    data.append("key", apiKey);
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "../PHP/destiny2Manifest.php");
-    xhr.onload = function(){
-        var json = JSON.parse(this.responseText);
-        //console.log(this.responseText);
-        //character.gear[j] = json;
-        character.gear[j].static = json;
-
-        var stats = Object.keys(json.stats.stats);
-        //console.log(stats)
-        for(var i = 0; i < stats.length; i++){
-            getItemStats2(stats[i], character,j,i,'DestinyStatDefinition', json.stats.stats[stats[i]].value);
-        }
-    }
-    xhr.send(data);
-}
-
-function getItemInfo(ID, type, itemInstanceId, character, j){
-    var xhr = new XMLHttpRequest();
+    var baseimgpath = "https://www.bungie.net";
+    var itemimg = document.getElementsByClassName("itemimg");
+    var itemname = document.getElementsByClassName("itemname");
+    var itempower = document.getElementsByClassName("itempower");
     
-    xhr.open("GET", "https://www.bungie.net/Platform/Destiny2/" + type + "/Profile/" + ID + "/Item/" + itemInstanceId + "/?components=302, 300, 304", true);
-    xhr.setRequestHeader("X-API-Key", apiKey);
-    xhr.onreadystatechange = function(){
-        
-        if(this.readyState === 4 && this.status === 200){
-            var json = JSON.parse(this.responseText);
-            //console.log(json);
-            var stats = Object.keys(json.Response.stats.data.stats);
-            
-            for(var i = 0; i < json.Response.perks.data.perks.length; i++){
-                
-                getItemPerk(json.Response.perks.data.perks[i].perkHash, character,j,i,  'DestinySandboxPerkDefinition');
-                if(i < stats.length){
-                    //console.log(stats[i])
-                    getItemStats(stats[i], character,j,i,'DestinyStatDefinition', json.Response.stats.data.stats[stats[i]].value);
-                }
-            }
 
-            
-        }
+    for(var i = 0; i < itemimg.length; i++){
+        itemimg[i].src = baseimgpath + user.characters[0].gear[i].static.displayProperties.icon; 
     }
-    xhr.send();
 }
 
-function getCharacterInfo(ID, type, characterId, i){
-    var xhr = new XMLHttpRequest();
-    var character;
-    xhr.open("GET", "https://www.bungie.net/Platform/Destiny2/" + type + "/Profile/" + ID + "/Character/" + characterId + "/?components=200, 205", true);
-    xhr.setRequestHeader("X-API-Key", apiKey);
-    xhr.onreadystatechange = function(){
-        
-        if(this.readyState === 4 && this.status === 200){
-            var json = JSON.parse(this.responseText);
-            //console.log(json);
-            //console.log(json.Response.equipment.data.items);
-            character = {
-                    emblemBackground : json.Response.character.data.emblemBackgroundPath,
-                    emblemIcon : json.Response.character.data.emblemPath,
-                    lastPlayed : json.Response.character.data.dateLastPlayed,
-                    light : json.Response.character.data.light,
-                    gear : [],
-            };
-            user.characters[i] = character;
-            for(var j = 0; j < json.Response.equipment.data.items.length; j++){
-
-                user.characters[i].gear[j] = {
-                    staticstats: [],
-                    stats: [],
-                    perks: [],
-                    static: "",
-                };
-                
-                getItemInfo(ID, type, json.Response.equipment.data.items[0].itemInstanceId, user.characters[i], j);
-                getItemData(json.Response.equipment.data.items[j].itemHash, user.characters[i], j, 'DestinyInventoryItemDefinition');
-                //character.gear[j] = json.Response.equipment.data.items[j].itemHash;
-            }
-            //console.log(characters);
-         
-       
-        }
-        
-        
-    }
-    xhr.send();
+function createview() {
+    weaponview();
 }
 
 
-function getCharacters(ID, type) {
-    
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://www.bungie.net/Platform/Destiny2/" + type + "/Profile/" + ID + "/?components=100", true);
-    xhr.setRequestHeader("X-API-Key", apiKey);
-    xhr.onreadystatechange = function(){
-        
-        if(this.readyState === 4 && this.status === 200){
-            var json = JSON.parse(this.responseText);
-            var profile = json.Response;
-            //console.log(json);
-            //console.log(profile.profile.data.characterIds);
-            
-            
-            for(var i = 0; i < profile.profile.data.characterIds.length; i++){
-                //console.log(profile.profile.data.characterIds[i]);
-                //console.log("character: " + i);
-                getCharacterInfo(ID, type, profile.profile.data.characterIds[i], i);
-            }
 
-            
-
-            
-        }
-    }
-    xhr.send();
-}
-
-
-function createUser() {
-    var name = "Khalidium";
-    var xhr = new XMLHttpRequest();
-
-    xhr.open("GET", "https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayer/-1/" + name, true);
-    xhr.setRequestHeader("X-API-Key", apiKey);
-    xhr.onreadystatechange = function(){
-        if(this.readyState === 4 && this.status === 200){
-            var json = JSON.parse(this.responseText);
-            var users = json.Response;
-            //console.log(users[0]);
-            user = {
-                displayname: users[0].displayName,
-                membershipId: users[0].membershipId,
-                membershipType: users[0].membershipType,
-                characters: [],
-            };
-            //user = new User(users[0].displayName, users[0].membershipId, users[0].membershipType);
-            getCharacters(users[0].membershipId, users[0].membershipType);
-            console.log(user);
-        }
-    }
-    xhr.send();
-
-};
 /////////////////////////////////////////////////
 
         window.onload = function loadJSON(){
             createUser();
+
+
+            setTimeout(() => {createview()}, 3000);
         }
     </script>
 </body>

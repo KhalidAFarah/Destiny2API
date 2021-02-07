@@ -1,0 +1,30 @@
+.maincontainer{
+    width: 100%;
+    height: 100%;
+    background-color: darkslateblue;
+}
+
+
+.weaponscontainer{
+
+    height: 100px;
+    width: 100%;
+    border-style:solid white;
+}
+
+.weaponcontainer{
+
+    height: 100%;
+    width: 30%;
+    border-style:solid;
+    border-color: black;
+}
+
+.topitemcontainer{
+    height: 25%;
+    width: 100%;
+}
+.itemimg{
+    width: 25%;
+    height: 25%;
+}
