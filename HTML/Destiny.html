@@ -17,38 +17,39 @@
             <div class="weaponcontainer">
                 <div class="topitemcontainer">
                     <img class="itemimg">
-                    <h1 class="itemname"></h1>
-                    <h2 class="itempower"></h2>
+                    <div class="itemtext">
+                        <h1 class="itemname"></h1>
+                        <h2 class="itempower">1250</h2>
+                    </div>
                 </div>
+                <div class="itemperkcontainer"></div>
             </div>
 
             <div class="weaponcontainer">
                 <div class="topitemcontainer">
                     <img class="itemimg">
-                    <h1 class="itemname"></h1>
-                    <h2 class="itempower"></h2>
+                    <div class="itemtext">
+                        <h1 class="itemname"></h1>
+                        <h2 class="itempower">1250</h2>
+                    </div>
                 </div>
+                <div class="itemperkcontainer"></div>
             </div>
 
             <div class="weaponcontainer">
                 <div class="topitemcontainer">
                     <img class="itemimg">
-                    <h1 class="itemname"></h1>
-                    <h2 class="itempower"></h2>
+                    <div class="itemtext">
+                        <h1 class="itemname"></h1>
+                        <h2 class="itempower">1250</h2>
+                    </div>
                 </div>
+                <div class="itemperkcontainer"></div>
             </div>
-
         </div>
     </div>
 
 
-
-
-
-
-    
-
-    
     <script type="text/javascript">
 
 ///////////////////////////////////////////////////
@@ -59,10 +60,19 @@ function weaponview() {
     var itemimg = document.getElementsByClassName("itemimg");
     var itemname = document.getElementsByClassName("itemname");
     var itempower = document.getElementsByClassName("itempower");
+    var itemperkcontainer = document.getElementsByClassName("itemperkcontainer");
+    var weaponcontainer = document.getElementsByClassName("weaponcontainer");
     
+    weaponcontainer[0].style="border-right: solid;";
+    weaponcontainer[1].style="border-right: solid;";
 
     for(var i = 0; i < itemimg.length; i++){
-        itemimg[i].src = baseimgpath + user.characters[0].gear[i].static.displayProperties.icon; 
+        itemimg[i].src = baseimgpath + user.characters[0].gear[i].static.displayProperties.icon;
+        itemname[i].innerHTML = user.characters[0].gear[i].static.displayProperties.name;
+        for(var j = 0; j < user.characters[0].gear[i].perks.length; j++){
+            if(j != user.characters[0].gear[i].perks.length-2)
+                itemperkcontainer[i].innerHTML += "<img src=\"" + baseimgpath + user.characters[0].gear[i].perks[j].displayProperties.icon + "\" class=\"weaponperk\">";
+        }
     }
 }
 
@@ -78,7 +88,7 @@ function createview() {
             createUser();
 
 
-            setTimeout(() => {createview()}, 3000);
+            setTimeout(() => {createview()}, 5000);
         }
     </script>
 </body>

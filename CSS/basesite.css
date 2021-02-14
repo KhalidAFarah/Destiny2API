@@ -1,3 +1,12 @@
+*{
+    margin: 0%;
+    padding: 0%;
+
+}
+:focus {
+    outline-color: yellow;
+}
+
 .maincontainer{
     width: 100%;
     height: 100%;
@@ -6,25 +15,57 @@
 
 
 .weaponscontainer{
-
-    height: 100px;
+    height: 25%;
     width: 100%;
-    border-style:solid white;
+    border-style:solid;
+    border-top: black;
+    display: flex;
+    margin: 5% 0%;
+    padding:  5% 0%;
 }
 
 .weaponcontainer{
-
     height: 100%;
-    width: 30%;
-    border-style:solid;
+    width: 33%;
+    
     border-color: black;
 }
 
 .topitemcontainer{
     height: 25%;
     width: 100%;
+    display: flex;
 }
 .itemimg{
-    width: 25%;
-    height: 25%;
+    width: 20%;
+    margin: 2%;
+}
+
+.itemtext{
+    padding-top: 2%;
+}
+
+.itemname{
+    font-size: 20px;
+}
+
+.itemperkcontainer{
+    height: 75%;
+    width: 100%;
+}
+
+.weaponperk{
+    margin-top: 2%;
+    width: 16%;
+    margin-left: 3%;
+}
+
+@media(max-width: 700px) {
+    .weaponscontainer{
+        display: block;
+        border-right-style: none;
+    }
+    .weaponcontainer{
+        width: 100%;
+    }
 }
