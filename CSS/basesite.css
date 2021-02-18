@@ -3,6 +3,10 @@
     padding: 0%;
 
 }
+
+body{
+    background-color: darkslateblue;
+}
 :focus {
     outline-color: yellow;
 }
@@ -59,6 +63,22 @@
     width: 16%;
     margin-left: 3%;
 }
+.iteminfo{
+    
+    display: none;
+    opacity: 80%;
+    filter: blur(0px);
+    transform-style: flat;
+    transition-duration: 10s;
+
+    background-color: white;
+    position: fixed;
+    margin-top: -28%;
+    margin-left: 30%;
+    width: 40%;
+    height: 80%;
+
+}
 
 @media(max-width: 700px) {
     .weaponscontainer{
@@ -69,3 +89,4 @@
         width: 100%;
     }
 }
+

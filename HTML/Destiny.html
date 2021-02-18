@@ -47,6 +47,8 @@
                 <div class="itemperkcontainer"></div>
             </div>
         </div>
+
+        <div class="iteminfo"></div>
     </div>
 
 
@@ -62,6 +64,7 @@ function weaponview() {
     var itempower = document.getElementsByClassName("itempower");
     var itemperkcontainer = document.getElementsByClassName("itemperkcontainer");
     var weaponcontainer = document.getElementsByClassName("weaponcontainer");
+    var iteminfo = document.getElementsByClassName("iteminfo");
     
     weaponcontainer[0].style="border-right: solid;";
     weaponcontainer[1].style="border-right: solid;";
@@ -73,6 +76,10 @@ function weaponview() {
             if(j != user.characters[0].gear[i].perks.length-2)
                 itemperkcontainer[i].innerHTML += "<img src=\"" + baseimgpath + user.characters[0].gear[i].perks[j].displayProperties.icon + "\" class=\"weaponperk\">";
         }
+    }
+
+    weaponcontainer[0].onclick = function () {
+        iteminfo[0].style="display: block;"
     }
 }
 
