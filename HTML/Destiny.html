@@ -79,7 +79,12 @@ function weaponview() {
     }
 
     weaponcontainer[0].onclick = function () {
+        console.log(weaponcontainer[0].clientHeight)
         iteminfo[0].style="display: block;"
+        //iteminfo[0].style="width: " +weaponcontainer[0].clientWidth+"px ;"
+        //iteminfo[0].style="margin-top: 25%;"
+        //iteminfo[0].style="width: 25%;"
+        //iteminfo[0].style="display: block;"
     }
 }
 
@@ -95,7 +100,7 @@ function createview() {
             createUser();
 
 
-            setTimeout(() => {createview()}, 5000);
+            setTimeout(() => {createview()}, 6000);
         }
     </script>
 </body>
