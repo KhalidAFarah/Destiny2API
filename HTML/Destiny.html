@@ -48,7 +48,16 @@
             </div>
         </div>
 
-        <div class="iteminfo"></div>
+        <div class="iteminfo">
+            <div class="iteminfo_topitemcontainer">
+                <img class="iteminfo_itemiconimg">
+                <img class="iteminfo_itemgraphicimg">
+                <h1 class="iteminfo_itemname"></h1>
+                <h2 class="iteminfo_itempower">1250</h2>
+            </div>
+
+            <div class="iteminfo_itemperkcontainer"></div>
+        </div>
     </div>
 
 
@@ -69,7 +78,7 @@ function weaponview() {
     weaponcontainer[0].style="border-right: solid;";
     weaponcontainer[1].style="border-right: solid;";
 
-    for(var i = 0; i < itemimg.length; i++){
+    for(var i = 0; i < weaponcontainer.length; i++){
         itemimg[i].src = baseimgpath + user.characters[0].gear[i].static.displayProperties.icon;
         itemname[i].innerHTML = user.characters[0].gear[i].static.displayProperties.name;
         for(var j = 0; j < user.characters[0].gear[i].perks.length; j++){
@@ -79,12 +88,9 @@ function weaponview() {
     }
 
     weaponcontainer[0].onclick = function () {
-        console.log(weaponcontainer[0].clientHeight)
-        iteminfo[0].style="display: block;"
-        //iteminfo[0].style="width: " +weaponcontainer[0].clientWidth+"px ;"
-        //iteminfo[0].style="margin-top: 25%;"
-        //iteminfo[0].style="width: 25%;"
-        //iteminfo[0].style="display: block;"
+        iteminfo[0].style="max-height: 100%;"
+        itemimg[3].src = itemimg[i].src = baseimgpath + user.characters[0].gear[i].static.displayProperties.icon;
+        
     }
 }
 
