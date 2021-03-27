@@ -1,0 +1,119 @@
+*{
+    margin: 0%;
+    padding: 0%;
+
+}
+
+body{
+    background-color: white;
+}
+:focus {
+    outline-color: gold;
+}
+
+.maincontainer{
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+
+
+.weaponscontainer{
+    height: 25%;
+    width: 100%;
+    display: flex;
+    margin: 5% 0%;
+    padding:  5% 0%;
+}
+
+.weaponcontainer{
+    height: 100%;
+    width: 33%;
+    
+    background-color: black;
+    margin: 1%;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px grey;
+
+}
+
+
+.topitemcontainer{
+    height: 25%;
+    width: 100%;
+    display: flex;
+}
+.itemimg{
+    width: 20%;
+    margin: 2%;
+}
+
+.itemtext{
+    padding-top: 2%;
+    color: white;
+}
+
+.itemname{
+    font-size: 20px;
+}
+
+.itemperkcontainer{
+    height: 75%;
+    width: 100%;
+}
+
+.weaponperk{
+    margin-top: 2%;
+    width: 16%;
+    margin-left: 3%;
+}
+.iteminfo{
+    opacity: 80%;
+    filter: blur(0px);
+    transform-style: flat;
+    transition-duration: 1s;
+    max-height: 0%;
+
+    background-color: white;
+    position: fixed;
+
+    margin-top: -28%;
+    margin-left: 30%;
+    width: 40%;
+    height: 80%;
+
+}
+
+.iteminfo_topitemcontainer{
+    height: 25%;
+    width: 100%;
+    display: flex;
+}
+.iteminfo_itemimg{
+    width: 20%;
+    margin: 2%;
+}
+
+.iteminfo_itemtext{
+    padding-top: 2%;
+}
+
+.iteminfo_itemname{
+    font-size: 20px;
+}
+
+.iteminfo_itemperkcontainer{
+    height: 75%;
+    width: 100%;
+}
+
+@media(max-width: 700px) {
+    .weaponscontainer{
+        display: block;
+        border-right-style: none;
+    }
+    .weaponcontainer{
+        width: 100%;
+    }
+}
+
