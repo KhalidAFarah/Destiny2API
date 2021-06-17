@@ -99,7 +99,11 @@ def getcharacterdata(name):
                 #items = cur.fetchall()
                 #print(items)
                 #gear['static']=items
-                gear['static']=manifest['DestinyInventoryItemDefinition'][item['itemHash']]
+                
+                try:
+                    gear['static']=manifest['DestinyInventoryItemDefinition'][item['itemHash']]
+                except:
+                    print("error")
                 #print(str(data['Response']['perks']))
                 #print()
 
@@ -129,7 +133,7 @@ def getcharacterdata(name):
 
                     try:
                         if index < len(gear['static']['investmentStats']):
-                            gear['stats'].append(manifest['DestinyStatDefinition'][int(gear['static']['investmentStats'][index]['statTypeHash'])])
+                            gear['staticstats'].append(manifest['DestinyStatDefinition'][int(gear['static']['investmentStats'][index]['statTypeHash'])])
                         else:
                             ready_stat2 = False
                     except:

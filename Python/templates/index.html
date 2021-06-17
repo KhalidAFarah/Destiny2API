@@ -9,30 +9,70 @@
 <body>
 
     <div class="maincontainer">
+        <div class="characterscontainer"></div>
+        <div class="headercon"><h2 align="center">Weapons</h2></div>
         <div class="weaponscontainer"></div>
+        <div class="headercon"><h2 align="center">Armor</h2></div>
+        <div class="armorcon" style="display: flex;flex-direction: column;">
+            <div class="weaponscontainer" style="padding: 2% 0%;margin: 0% 0%;"></div>
+            <div class="weaponscontainer" style="padding: 2% 0%;margin: 0% 0%;"></div>
+        </div>
     </div>
 
     <script type="text/javascript">
 
         var weaponscontainer = document.getElementsByClassName("weaponscontainer");
+        var characterscontainer = document.getElementsByClassName("characterscontainer");
         var baseimgpath = "https://www.bungie.net";
+        var character = 0;
+
+        function resetview(){
+            for(var i = 0; i < weaponscontainer.length; i++){
+                weaponscontainer[i].innerHTML="";
+            }
+        }
+
+        function characterselect(user){
+            var t = document.getElementsByClassName("charactercontainer");
+            for(var i = 0; i < user.characters.length; i++){
+                characterscontainer[0].innerHTML += 
+                "<div class=\"charactercontainer\">" +
+                    "<img class=\"characteremblem\" value=\"" + i + "\" src=\"" + baseimgpath + user.characters[i].emblemBackground + "\">" +
+                    "<h3 class=\"characterpower\" align=\"center\">" + user.characters[i].light + "</h3>"
+                "</div>";
+
+                
+            }
+            for(var i = 0; i < t.length; i++){
+                t[i].onclick = function (){
+                    var val = this.childNodes[0].getAttribute("value");
+                    character = val;
+                    resetview();
+                    createView(user);
+                }
+            }
+        }
 
         function createView(user){
-            for(var i = 0; i < user.characters[2].gear.length; i++){
+            
+            //for(var i = 0; i < )
+
+
+            for(var i = 0; i < user.characters[character].gear.length; i++){
                 if(i < 3){
                     //weapon boxes
                     var perksbox="";
                     var intrinsicbox="";
                     //console.log(baseimgpath + user.characters[0].gear[i].perks[0].displayProperties.icon)
-                    for(var j = 0; j < user.characters[2].gear[i].perks.length; j++){
-                        if("/img/misc/missing_icon_d2.png" != user.characters[2].gear[i].perks[j].displayProperties.icon){
-                            if(j == 0 || j == user.characters[2].gear[i].perks.length-1){
-                                intrinsicbox += "<img class=\"itemimg\" src=\""+
-                                    baseimgpath + user.characters[2].gear[i].perks[j].displayProperties.icon +
+                    for(var j = 0; j < user.characters[character].gear[i].perks.length; j++){
+                        if("/img/misc/missing_icon_d2.png" != user.characters[character].gear[i].perks[j].displayProperties.icon){
+                            if(j == 0 || j == user.characters[character].gear[i].perks.length-1){
+                                intrinsicbox += "<img class=\"itemimg2\" src=\""+
+                                    baseimgpath + user.characters[character].gear[i].perks[j].displayProperties.icon +
                                     "\">"
                             }else{
-                                perksbox += "<img class=\"itemimg\" src=\""+
-                                    baseimgpath + user.characters[2].gear[i].perks[j].displayProperties.icon +
+                                perksbox += "<img class=\"itemimg2\" src=\""+
+                                    baseimgpath + user.characters[character].gear[i].perks[j].displayProperties.icon +
                                     "\">"
                             }
                         }
@@ -42,11 +82,11 @@
                     var weaponsdiv =
                     "<div class=\"weaponcontainer\">"+
                         "<div class=\"topitemcontainer\">"+
-                            "<img class=\"itemimg\" src=\""+baseimgpath + user.characters[2].gear[i].static.displayProperties.icon+"\">"+
+                            "<img class=\"itemimg\" src=\""+baseimgpath + user.characters[character].gear[i].static.displayProperties.icon+"\">"+
 
                             "<div class=\"itemtext\">"+
-                                "<h1 class=\"itemname\">"+user.characters[2].gear[i].static.displayProperties.name+"</h1>"+
-                                "<h2 class=\"itempower\">"+ user.characters[2].gear[i].power+"</h2>"+
+                                "<h1 class=\"itemname\">"+user.characters[character].gear[i].static.displayProperties.name+"</h1>"+
+                                "<h2 class=\"itempower\">"+ user.characters[character].gear[i].power+"</h2>"+
                             "</div>"+
                         "</div>"+
 
@@ -62,7 +102,87 @@
 
                     
 
-                }
+                }else if(i > 2 && i < 6){
+                    //weapon boxes
+                    var perksbox="";
+                    var intrinsicbox="";
+                    //console.log(baseimgpath + user.characters[0].gear[i].perks[0].displayProperties.icon)
+                    for(var j = 0; j < user.characters[character].gear[i].perks.length; j++){
+                        if("/common/destiny2_content/icons/cd042d8338050f8837cd7e90ef1938db.jpg" != user.characters[character].gear[i].perks[j].displayProperties.icon){
+                            if(j == 0 || j == user.characters[character].gear[i].perks.length-1){
+                                intrinsicbox += "<img class=\"itemimg2\" src=\""+
+                                    baseimgpath + user.characters[character].gear[i].perks[j].displayProperties.icon +
+                                    "\">"
+                            }else{
+                                perksbox += "<img class=\"itemimg2\" src=\""+
+                                    baseimgpath + user.characters[character].gear[i].perks[j].displayProperties.icon +
+                                    "\">"
+                            }
+                        }
+                        
+                    }
+                    var Armorsdiv =
+                    "<div class=\"armorcontainer\">"+
+                        "<div class=\"topitemcontainer\">"+
+                            "<img class=\"itemimg\" src=\""+baseimgpath + user.characters[character].gear[i].static.displayProperties.icon+"\">"+
+
+                            "<div class=\"itemtext\">"+
+                                "<h1 class=\"itemname\">"+user.characters[character].gear[i].static.displayProperties.name+"</h1>"+
+                                "<h2 class=\"itempower\">"+ user.characters[character].gear[i].power+"</h2>"+
+                            "</div>"+
+                        "</div>"+
+
+                        "<div class=\"itemmodcontainer\">"+
+                            perksbox+
+                        "</div>"+
+                        "<div class=\"itemmodcontainer\">"+
+                            intrinsicbox+
+                        "</div>"+
+                    "</div>";
+                    
+                    weaponscontainer[1].innerHTML += Armorsdiv;
+
+                }else if(i > 5 && i < 9){
+                    //weapon boxes
+                    var perksbox="";
+                    var intrinsicbox="";
+                    //console.log(baseimgpath + user.characters[0].gear[i].perks[0].displayProperties.icon)
+                    for(var j = 0; j < user.characters[character].gear[i].perks.length; j++){
+                        if("/common/destiny2_content/icons/cd042d8338050f8837cd7e90ef1938db.jpg" != user.characters[character].gear[i].perks[j].displayProperties.icon){
+                            if(j == 0 || j == user.characters[character].gear[i].perks.length-1){
+                                intrinsicbox += "<img class=\"itemimg\" src=\""+
+                                    baseimgpath + user.characters[character].gear[i].perks[j].displayProperties.icon +
+                                    "\">"
+                            }else{
+                                perksbox += "<img class=\"itemimg\" src=\""+
+                                    baseimgpath + user.characters[character].gear[i].perks[j].displayProperties.icon +
+                                    "\">"
+                            }
+                        }
+                        
+                    }
+                    var Armorsdiv =
+                    "<div class=\"armorcontainer\">"+
+                        "<div class=\"topitemcontainer\">"+
+                            "<img class=\"itemimg\" src=\""+baseimgpath + user.characters[character].gear[i].static.displayProperties.icon+"\">"+
+
+                            "<div class=\"itemtext\">"+
+                                "<h1 class=\"itemname\">"+user.characters[character].gear[i].static.displayProperties.name+"</h1>"+
+                                "<h2 class=\"itempower\">"+ user.characters[character].gear[i].power+"</h2>"+
+                            "</div>"+
+                        "</div>"+
+
+                        "<div class=\"itemmodcontainer\">"+
+                            perksbox+
+                        "</div>"+
+                        "<div class=\"itemmodcontainer\">"+
+                            intrinsicbox+
+                        "</div>"+
+                    "</div>";
+                    
+                    weaponscontainer[2].innerHTML += Armorsdiv;
+
+                }                
                 
             }
         }
@@ -80,6 +200,7 @@
         if(this.readyState === 4 && this.status === 200){
             user = JSON.parse(this.responseText);
             console.log(user)
+            characterselect(user)
             createView(user);
         }
     }

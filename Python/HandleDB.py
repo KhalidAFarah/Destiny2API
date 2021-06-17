@@ -37,8 +37,15 @@ hashes_trunc = {
 }
 
 def get_manifest():
-    manifest_url = 'http://www.bungie.net/Platform/Destiny2/Manifest/'
 
+    if os.path.exists("manifest.content"):
+        os.remove("manifest.content")
+    if os.path.exists("manifest.pickle"):
+        os.remove("manifest.pickle")
+    if os.path.exists("MANZIP"):
+        os.remove("MANZIP")
+        
+    manifest_url = 'http://www.bungie.net/Platform/Destiny2/Manifest/'
     HEADERS = {"X-API-Key":"a8d4879a0fe04169aa7c7b782265f964"}
 
     r = requests.get(manifest_url, headers=HEADERS)
