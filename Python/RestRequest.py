@@ -80,7 +80,6 @@ def getcharacterdata(name):
 
                 gear = {
                     "power": 0,
-                    "staticstats": [],
                     "stats": [],
                     "perks": [],
                     "static": "",
@@ -92,13 +91,6 @@ def getcharacterdata(name):
                     gear['power']=data['Response']['instance']['data']['primaryStat']['value']
                 except:
                     pass
-                #con = sqlite3.connect('manifest.content')
-                #cur = con.cursor()
-
-                #cur.execute('SELECT json from DestinyInventoryItemDefinition where id = '+str(item['itemHash']))
-                #items = cur.fetchall()
-                #print(items)
-                #gear['static']=items
                 
                 try:
                     gear['static']=manifest['DestinyInventoryItemDefinition'][item['itemHash']]
@@ -113,8 +105,9 @@ def getcharacterdata(name):
                 #print(index < len(gear['static']['investmentStats']))
                 ready_perk = True
                 ready_stat = True
-                ready_stat2 = True
-                while ready_perk or ready_stat or ready_stat2:
+                fi = True
+                
+                while ready_perk or ready_stat:
                     try:
                         if index < len(data['Response']['perks']['data']['perks']):
                             gear['perks'].append(manifest['DestinySandboxPerkDefinition'][data['Response']['perks']['data']['perks'][index]['perkHash']])
@@ -123,26 +116,22 @@ def getcharacterdata(name):
                     except:
                         ready_perk = False
                     try:
-                        stats = data['Response']['stats']['data']['stats'].keys()
+                        stats = list(data['Response']['stats']['data']['stats'])
                         if index < len(stats):
-                            gear['stats'].append(manifest['DestinyStatDefinition'][int(stats[index])])
+                            tes = {
+                                "data":manifest['DestinyStatDefinition'][int(stats[index])],
+                                "value": data['Response']['stats']['data']['stats'][stats[index]]['value']
+                            }
+                            
+                            gear['stats'].append(tes)
                         else:
                             ready_stat = False
                     except:
                         ready_stat = False
 
-                    try:
-                        if index < len(gear['static']['investmentStats']):
-                            gear['staticstats'].append(manifest['DestinyStatDefinition'][int(gear['static']['investmentStats'][index]['statTypeHash'])])
-                        else:
-                            ready_stat2 = False
-                    except:
-                        ready_stat2 = False
+                   
                     index += 1
-                    #print("-------------------------")
-                    #print(ready_perk)
-                    #print(ready_stat)
-                    #print(ready_stat2)
+                    
 
                 
             #print(gear)

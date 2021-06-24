@@ -161,6 +161,27 @@ body{
     height: 75%;
     width: 100%;
 }
+.statrow{
+    display: flex;
+    flex-direction: row;
+}
+.itemstats p{
+    color: gold;
+    width: 10rem;
+}
+.statrow{
+    padding: 0.4rem;
+}
+.bar{
+    background-color: #141454;
+    width: 100%;
+    border: solid gold;
+}
+.progresssbar{
+    background-color: gold;
+    height: 100%;
+    padding-right: 2rem;
+}
 
 @media(max-width: 700px) {
     .weaponscontainer{

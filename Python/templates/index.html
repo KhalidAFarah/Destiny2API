@@ -55,12 +55,16 @@
 
         function createView(user){
             
-            //for(var i = 0; i < )
+            
+
+       
 
 
             for(var i = 0; i < user.characters[character].gear.length; i++){
                 if(i < 3){
                     //weapon boxes
+
+                    
                     var perksbox="";
                     var intrinsicbox="";
                     //console.log(baseimgpath + user.characters[0].gear[i].perks[0].displayProperties.icon)
@@ -78,6 +82,13 @@
                         }
                         
                     }
+                    var stats = "<div class=\"itemstats\">"
+                    for(var j = 0; j < user.characters[character].gear[i].stats.length; j++){
+                        var stat = "<div class=\"statrow\"><p>" + user.characters[character].gear[i].stats[j].data.displayProperties.name + "</p>" +
+                        "<div class=\"bar\"><div class=\"progresssbar\" style=\"width:" + user.characters[character].gear[i].stats[j].value + "%;\"></div></div></div>";
+                        stats += stat;
+                        
+                    } 
 
                     var weaponsdiv =
                     "<div class=\"weaponcontainer\">"+
@@ -96,6 +107,7 @@
                         "<div class=\"itemperkcontainer\">"+
                             intrinsicbox+
                         "</div>"+
+                        stats +
                     "</div>";
                     
                     weaponscontainer[0].innerHTML += weaponsdiv;
@@ -121,6 +133,15 @@
                         }
                         
                     }
+
+                    var stats = "<div class=\"itemstats\">"
+                    for(var j = 0; j < user.characters[character].gear[i].stats.length; j++){
+                        var stat = "<div class=\"statrow\"><p>" + user.characters[character].gear[i].stats[j].data.displayProperties.name + "</p>" +
+                        "<div class=\"bar\"><div class=\"progresssbar\" style=\"width:" + user.characters[character].gear[i].stats[j].value + "%;\"></div></div></div>";
+                        stats += stat;
+                        
+                    } 
+
                     var Armorsdiv =
                     "<div class=\"armorcontainer\">"+
                         "<div class=\"topitemcontainer\">"+
@@ -138,6 +159,7 @@
                         "<div class=\"itemmodcontainer\">"+
                             intrinsicbox+
                         "</div>"+
+                        stats +
                     "</div>";
                     
                     weaponscontainer[1].innerHTML += Armorsdiv;
