@@ -26,6 +26,153 @@
         var baseimgpath = "https://www.bungie.net";
         var character = 0;
 
+
+        function checkforupdate(){
+            if(user != null){
+                var xhr = new XMLHttpRequest()
+                xhr.open("GET", "http://127.0.0.1:5000/v1/quick/"+displayname, true)
+                xhr.onreadystatechange = function(){
+                    if(this.readyState === 4 && this.status === 200){
+                        var newdata = JSON.parse(this.responseText); 
+
+                        for(var i = 0; i < newdata.characters.length; i++){
+                            if(user.characters[i].id == newdata.characters[i].id){
+                                var counter = 0;
+                                for(var j = 0; j < newdata.characters[i].gear.length; j++){
+                                    if(newdata.characters[i].gear[j].id == user.characters[i].gear[j].id){
+                                        //checking perks
+                                        for(var k = 0; k < newdata.characters[i].gear[j].perks.length; k++){
+                                            if(user.characters[i].gear[j].perks[k].hash != newdata.characters[i].gear[j].perks[k].hash){
+                                                document.getElementsByClassName("itemperkcontainer2")[counter].innerHTML =
+                                                 "<img class=\"itemimg2\" src=\""+ newdata.characters[i].gear[j].perks[k].displayProperties.icon +"\"><h3>"+ newdata.characters[i].gear[j].perks[k].displayProperties.name +"</h3>";
+                                            }
+                                            counter++;
+                                        }
+
+
+                                    }else{
+                                        //differemt item
+                                        if(j < 3){
+                                            var weaponsdiv = document.getElementsByClassName("weaponcontainer")[j];
+                                            weaponsdiv.innerHTML=""; //emptying weaponsdiv
+
+                                            var div = document.createElement("div");
+                                            div.setAttribute("class", "topitemcontainer");
+
+                                            var img = document.createElement("img");
+                                            img.setAttribute("class", "itemimg");
+                                            img.setAttribute("src", baseimgpath + newdata.characters[character].gear[weaponsdiv.getAttribute("value")].static.displayProperties.icon);
+                                            div.appendChild(img);
+
+                                            var div2 = document.createElement("div");
+                                            div2.setAttribute("class", "itemtext");
+
+                                            var text = document.createElement("h1");
+                                            text.setAttribute("class", "itemname");
+                                            text.innerHTML = newdata.characters[character].gear[weaponsdiv.getAttribute("value")].static.displayProperties.name;
+                                            div2.appendChild(text);
+
+                                            var text = document.createElement("h2");
+                                            text.setAttribute("class", "itempower");
+                                            text.innerHTML = newdata.characters[character].gear[weaponsdiv.getAttribute("value")].power;
+                                            div2.appendChild(text);
+
+                                            div.appendChild(div2);
+                                            weaponsdiv.appendChild(div);
+
+                                            for(var k = 0; k < newdata.characters[character].gear[weaponsdiv.getAttribute("value")].perks.length; k++){
+                                                if("/img/misc/missing_icon_d2.png" != newdata.characters[character].gear[weaponsdiv.getAttribute("value")].perks[k].displayProperties.icon){
+                                                    combined += "<div class=\"itemperkcontainer2\"><img class=\"itemimg2\" src=\""+
+                                                            baseimgpath + newdata.characters[character].gear[weaponsdiv.getAttribute("value")].perks[k].displayProperties.icon +
+                                                            "\"><h3>"+newdata.characters[character].gear[weaponsdiv.getAttribute("value")].perks[k].displayProperties.name+"</h3></div>"
+
+                                                    div2 = document.createElement("div");
+                                                    div2.setAttribute("class", "itemperkcontainer2");
+
+                                                    img = document.createElement("img");
+                                                    img.setAttribute("class", "itemimg2");
+                                                    img.setAttribute("src", baseimgpath + newdata.characters[character].gear[weaponsdiv.getAttribute("value")].perks[k].displayProperties.icon);
+                                                    div2.appendChild(img);
+
+                                                    text = document.createElement("h3");
+                                                    text.innerHTML = newdata.characters[character].gear[weaponsdiv.getAttribute("value")].perks[k].displayProperties.name;
+                                                    div2.appendChild(text);
+
+                                                    weaponsdiv.appendChild(div2);
+
+                                                }
+                                            }
+
+                                        }else if(j > 2 && j < 6){
+                                            var weaponsdiv = document.getElementsByClassName("armorcontainer")[j];
+                                            weaponsdiv.innerHTML=""; //emptying weaponsdiv
+
+                                            var div = document.createElement("div");
+                                            div.setAttribute("class", "topitemcontainer");
+
+                                            var img = document.createElement("img");
+                                            img.setAttribute("class", "itemimg");
+                                            img.setAttribute("src", baseimgpath + newdata.characters[character].gear[weaponsdiv.getAttribute("value")].static.displayProperties.icon);
+                                            div.appendChild(img);
+
+                                            var div2 = document.createElement("div");
+                                            div2.setAttribute("class", "itemtext");
+
+                                            var text = document.createElement("h1");
+                                            text.setAttribute("class", "itemname");
+                                            text.innerHTML = newdata.characters[character].gear[weaponsdiv.getAttribute("value")].static.displayProperties.name;
+                                            div2.appendChild(text);
+
+                                            var text = document.createElement("h2");
+                                            text.setAttribute("class", "itempower");
+                                            text.innerHTML = newdata.characters[character].gear[weaponsdiv.getAttribute("value")].power;
+                                            div2.appendChild(text);
+
+                                            div.appendChild(div2);
+                                            weaponsdiv.appendChild(div);
+
+                                            for(var k = 0; k < newdata.characters[character].gear[weaponsdiv.getAttribute("value")].perks.length; k++){
+                                                if("/img/misc/missing_icon_d2.png" != newdata.characters[character].gear[weaponsdiv.getAttribute("value")].perks[k].displayProperties.icon){
+                                                    combined += "<div class=\"itemperkcontainer2\"><img class=\"itemimg2\" src=\""+
+                                                            baseimgpath + newdata.characters[character].gear[weaponsdiv.getAttribute("value")].perks[k].displayProperties.icon +
+                                                            "\"><h3>"+newdata.characters[character].gear[weaponsdiv.getAttribute("value")].perks[k].displayProperties.name+"</h3></div>"
+
+                                                    div2 = document.createElement("div");
+                                                    div2.setAttribute("class", "itemperkcontainer2");
+
+                                                    img = document.createElement("img");
+                                                    img.setAttribute("class", "itemimg2");
+                                                    img.setAttribute("src", baseimgpath + newdata.characters[character].gear[weaponsdiv.getAttribute("value")].perks[k].displayProperties.icon);
+                                                    div2.appendChild(img);
+
+                                                    text = document.createElement("h3");
+                                                    text.innerHTML = newdata.characters[character].gear[weaponsdiv.getAttribute("value")].perks[k].displayProperties.name;
+                                                    div2.appendChild(text);
+
+                                                    weaponsdiv.appendChild(div2);
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }else{
+                                //new character
+                                if(character == newdata.character[i].id){
+                                    resetview();
+                                    characterselect(newdata);
+                                    createView(newdata);
+                                    
+                                }
+                            }
+                        }
+                        user = newdata;
+                    }
+                }
+                xhr.send();
+            }
+        } 
+
         function resetview(){
             for(var i = 0; i < weaponscontainer.length; i++){
                 weaponscontainer[i].innerHTML="";
@@ -67,9 +214,15 @@
                     
                     var perksbox="";
                     var intrinsicbox="";
+                    var combined="";
                     //console.log(baseimgpath + user.characters[0].gear[i].perks[0].displayProperties.icon)
                     for(var j = 0; j < user.characters[character].gear[i].perks.length; j++){
                         if("/img/misc/missing_icon_d2.png" != user.characters[character].gear[i].perks[j].displayProperties.icon){
+                            combined += "<div class=\"itemperkcontainer2\"><img class=\"itemimg2\" src=\""+
+                                    baseimgpath + user.characters[character].gear[i].perks[j].displayProperties.icon +
+                                    "\"><h3>"+user.characters[character].gear[i].perks[j].displayProperties.name+"</h3></div>"
+
+
                             if(j == 0 || j == user.characters[character].gear[i].perks.length-1){
                                 intrinsicbox += "<img class=\"itemimg2\" src=\""+
                                     baseimgpath + user.characters[character].gear[i].perks[j].displayProperties.icon +
@@ -90,7 +243,173 @@
                         
                     } 
 
-                    var weaponsdiv =
+                    var weaponsdiv = document.createElement("div");
+                    weaponsdiv.setAttribute("class", "weaponcontainer");
+                    weaponsdiv.setAttribute("value", i);
+                    weaponsdiv.setAttribute("default", true);
+
+                    var div = document.createElement("div");
+                    div.setAttribute("class", "topitemcontainer");
+
+                    var img = document.createElement("img");
+                    img.setAttribute("class", "itemimg");
+                    img.setAttribute("src", baseimgpath + user.characters[character].gear[i].static.displayProperties.icon);
+                    div.appendChild(img);
+
+                    var div2 = document.createElement("div");
+                    div2.setAttribute("class", "itemtext");
+
+                    var text = document.createElement("h1");
+                    text.setAttribute("class", "itemname");
+                    text.innerHTML = user.characters[character].gear[i].static.displayProperties.name;
+                    div2.appendChild(text);
+
+                    var text = document.createElement("h2");
+                    text.setAttribute("class", "itempower");
+                    text.innerHTML = user.characters[character].gear[i].power;
+                    div2.appendChild(text);
+
+                    div.appendChild(div2);
+                    weaponsdiv.appendChild(div);
+
+                    div = document.createElement("div");
+                    div.setAttribute("class", "perkinfocontainer");
+
+                    for(var j = 0; j < user.characters[character].gear[i].perks.length; j++){
+                        if("/img/misc/missing_icon_d2.png" != user.characters[character].gear[i].perks[j].displayProperties.icon){
+                            combined += "<div class=\"itemperkcontainer2\"><img class=\"itemimg2\" src=\""+
+                                    baseimgpath + user.characters[character].gear[i].perks[j].displayProperties.icon +
+                                    "\"><h3>"+user.characters[character].gear[i].perks[j].displayProperties.name+"</h3></div>"
+
+                            div2 = document.createElement("div");
+                            div2.setAttribute("class", "itemperkcontainer2");
+
+                            img = document.createElement("img");
+                            img.setAttribute("class", "itemimg2");
+                            img.setAttribute("src", baseimgpath + user.characters[character].gear[i].perks[j].displayProperties.icon);
+                            div2.appendChild(img);
+
+                            text = document.createElement("h3");
+                            text.innerHTML = user.characters[character].gear[i].perks[j].displayProperties.name;
+                            div2.appendChild(text);
+
+                            div.appendChild(div2);
+
+                        }
+                    }
+                    weaponsdiv.appendChild(div);
+
+                    weaponsdiv.onclick = function(){
+                        if(this.getAttribute("default") == "true"){
+                            this.innerHTML=""; //emptying weaponsdiv
+                           
+                            this.setAttribute("style",  "transform: rotateY(180deg);")
+                            //his.setAttribute("style", "animation: cardflip forwards; animation-duration: 2s;")
+                            var box = document.createElement("div");
+                            box.setAttribute("style", "filter: opacity(1); transition: 2s;")
+                            var div = document.createElement("div")
+                            div.setAttribute("class", "itemscreenshotcontainer");
+                            div.setAttribute("style", "transform: rotateY(180deg);");
+                        
+
+                            //adding the item screenshot
+                            var img = document.createElement("img");
+                            img.setAttribute("class", "itemscreenshot");
+                            img.setAttribute("src", baseimgpath + user.characters[character].gear[this.getAttribute("value")].static.screenshot);
+
+                            div.appendChild(img);
+                            box.appendChild(div);
+
+                            //adding item stats
+                            var stats = document.createElement("div");
+                            stats.setAttribute("class", "itemstats");
+                            stats.setAttribute("style", "transform: rotateY(180deg);");
+                            for(var j = 0; j < user.characters[character].gear[this.getAttribute("value")].stats.length; j++){
+                                var stat = document.createElement("div");
+                                stat.setAttribute("class", "statrow");
+                                
+
+                                var text = document.createElement("p");
+                                text.innerHTML = user.characters[character].gear[this.getAttribute("value")].stats[j].data.displayProperties.name + " " + user.characters[character].gear[this.getAttribute("value")].stats[j].value;
+                                stat.appendChild(text);
+
+
+                                stats.appendChild(stat);
+                            }
+                            box.appendChild(stats)
+                            
+                            this.appendChild(box)
+                            //box.setAttribute("style", "transition: 5s; filter: opacity(1); transition-delay: 0s;")
+
+
+                            this.setAttribute("default", false)
+                        }else{
+                            this.innerHTML=""; //emptying weaponsdiv
+                            this.setAttribute("style",  "transition: 1s; transform: rotateY(0deg);")
+                            
+                            var div = document.createElement("div");
+                            div.setAttribute("class", "topitemcontainer");
+
+                            var img = document.createElement("img");
+                            img.setAttribute("class", "itemimg");
+                            img.setAttribute("src", baseimgpath + user.characters[character].gear[this.getAttribute("value")].static.displayProperties.icon);
+                            div.appendChild(img);
+
+                            var div2 = document.createElement("div");
+                            div2.setAttribute("class", "itemtext");
+
+                            var text = document.createElement("h1");
+                            text.setAttribute("class", "itemname");
+                            text.innerHTML = user.characters[character].gear[this.getAttribute("value")].static.displayProperties.name;
+                            div2.appendChild(text);
+
+                            var text = document.createElement("h2");
+                            text.setAttribute("class", "itempower");
+                            text.innerHTML = user.characters[character].gear[this.getAttribute("value")].power;
+                            div2.appendChild(text);
+
+                            div.appendChild(div2);
+                            this.appendChild(div);
+
+                            for(var j = 0; j < user.characters[character].gear[this.getAttribute("value")].perks.length; j++){
+                                if("/img/misc/missing_icon_d2.png" != user.characters[character].gear[this.getAttribute("value")].perks[j].displayProperties.icon){
+                                    combined += "<div class=\"itemperkcontainer2\"><img class=\"itemimg2\" src=\""+
+                                            baseimgpath + user.characters[character].gear[this.getAttribute("value")].perks[j].displayProperties.icon +
+                                            "\"><h3>"+user.characters[character].gear[this.getAttribute("value")].perks[j].displayProperties.name+"</h3></div>"
+
+                                    div2 = document.createElement("div");
+                                    div2.setAttribute("class", "itemperkcontainer2");
+
+                                    img = document.createElement("img");
+                                    img.setAttribute("class", "itemimg2");
+                                    img.setAttribute("src", baseimgpath + user.characters[character].gear[this.getAttribute("value")].perks[j].displayProperties.icon);
+                                    div2.appendChild(img);
+
+                                    text = document.createElement("h3");
+                                    text.innerHTML = user.characters[character].gear[this.getAttribute("value")].perks[j].displayProperties.name;
+                                    div2.appendChild(text);
+
+                                    this.appendChild(div2);
+
+                                }
+                            }
+
+                            this.setAttribute("default", true)
+                        }
+                    }
+                    
+
+
+
+
+
+
+                    
+
+
+
+
+                    /*var weaponsdiv =
                     "<div class=\"weaponcontainer\">"+
                         "<div class=\"topitemcontainer\">"+
                             "<img class=\"itemimg\" src=\""+baseimgpath + user.characters[character].gear[i].static.displayProperties.icon+"\">"+
@@ -100,18 +419,18 @@
                                 "<h2 class=\"itempower\">"+ user.characters[character].gear[i].power+"</h2>"+
                             "</div>"+
                         "</div>"+
-
-                        "<div class=\"itemperkcontainer\">"+
-                            perksbox+
-                        "</div>"+
-                        "<div class=\"itemperkcontainer\">"+
-                            intrinsicbox+
-                        "</div>"+
-                        stats +
-                    "</div>";
+                        combined +
+                        //"<div class=\"itemperkcontainer\">"+
+                        //    perksbox+
+                        //"</div>"+
+                        //"<div class=\"itemperkcontainer\">"+
+                        //    intrinsicbox+
+                        //"</div>"+
+                        //stats +
+                    "</div>";*/
                     
-                    weaponscontainer[0].innerHTML += weaponsdiv;
-
+                    weaponscontainer[0].appendChild(weaponsdiv);
+                    //document.getElementsByClassName("weaponsdiv")[i].onclick = ts;
                     
 
                 }else if(i > 2 && i < 6){

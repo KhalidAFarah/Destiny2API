@@ -67,6 +67,7 @@ def getcharacterdata(name):
             data = sendRequest("https://www.bungie.net/Platform/Destiny2/" + str(user['membershipType']) + "/Profile/" + str(user['membershipId']) + "/Character/" + str(character) + "/?components=200, 205")
             
             character = {
+                "id": character,
                 "emblemBackground" : data['Response']['character']['data']['emblemBackgroundPath'],
                 "emblemIcon" : data['Response']['character']['data']['emblemPath'],
                 "lastPlayed" : data['Response']['character']['data']['dateLastPlayed'],
@@ -79,6 +80,7 @@ def getcharacterdata(name):
             for item in data['Response']['equipment']['data']['items']:
 
                 gear = {
+                    "id": item['itemInstanceId'],
                     "power": 0,
                     "stats": [],
                     "perks": [],
