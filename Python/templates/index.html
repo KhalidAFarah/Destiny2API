@@ -204,7 +204,7 @@
             
             
 
-       
+            //setInterval(1000, checkforupdate)
 
 
             for(var i = 0; i < user.characters[character].gear.length; i++){
@@ -244,10 +244,17 @@
                     } 
 
                     var weaponsdiv = document.createElement("div");
-                    weaponsdiv.setAttribute("class", "weaponcontainer");
+                    weaponsdiv.setAttribute("class", "weaponcontainer flipcard");
                     weaponsdiv.setAttribute("value", i);
                     weaponsdiv.setAttribute("default", true);
 
+                    var front = document.createElement("div");
+                    var back = document.createElement("div");
+
+                    front.setAttribute("class","flipcard-front")
+                    back.setAttribute("class","flipcard-back")
+                    
+                    //front view
                     var div = document.createElement("div");
                     div.setAttribute("class", "topitemcontainer");
 
@@ -270,7 +277,7 @@
                     div2.appendChild(text);
 
                     div.appendChild(div2);
-                    weaponsdiv.appendChild(div);
+                    front.appendChild(div);
 
                     div = document.createElement("div");
                     div.setAttribute("class", "perkinfocontainer");
@@ -297,103 +304,53 @@
 
                         }
                     }
-                    weaponsdiv.appendChild(div);
+                    front.appendChild(div);
+                    weaponsdiv.appendChild(front);
 
-                    weaponsdiv.onclick = function(){
-                        if(this.getAttribute("default") == "true"){
-                            this.innerHTML=""; //emptying weaponsdiv
-                           
-                            this.setAttribute("style",  "transform: rotateY(180deg);")
-                            //his.setAttribute("style", "animation: cardflip forwards; animation-duration: 2s;")
-                            var box = document.createElement("div");
-                            box.setAttribute("style", "filter: opacity(1); transition: 2s;")
-                            var div = document.createElement("div")
-                            div.setAttribute("class", "itemscreenshotcontainer");
-                            div.setAttribute("style", "transform: rotateY(180deg);");
+                    //back view
+
+                    
+                    var div = document.createElement("div")
+                    div.setAttribute("class", "itemscreenshotcontainer");
+                    
                         
 
-                            //adding the item screenshot
-                            var img = document.createElement("img");
-                            img.setAttribute("class", "itemscreenshot");
-                            img.setAttribute("src", baseimgpath + user.characters[character].gear[this.getAttribute("value")].static.screenshot);
+                    //adding the item screenshot
+                    var img = document.createElement("img");
+                    img.setAttribute("class", "itemscreenshot");
+                    img.setAttribute("src", baseimgpath + user.characters[character].gear[i].static.screenshot);
 
-                            div.appendChild(img);
-                            box.appendChild(div);
+                    div.appendChild(img);
+                    back.appendChild(div);
 
-                            //adding item stats
-                            var stats = document.createElement("div");
-                            stats.setAttribute("class", "itemstats");
-                            stats.setAttribute("style", "transform: rotateY(180deg);");
-                            for(var j = 0; j < user.characters[character].gear[this.getAttribute("value")].stats.length; j++){
-                                var stat = document.createElement("div");
-                                stat.setAttribute("class", "statrow");
+                    //adding item stats
+                    var stats = document.createElement("div");
+                    stats.setAttribute("class", "itemstats");
+                    
+                    for(var j = 0; j < user.characters[character].gear[i].stats.length; j++){
+                        var stat = document.createElement("div");
+                        stat.setAttribute("class", "statrow");
                                 
 
-                                var text = document.createElement("p");
-                                text.innerHTML = user.characters[character].gear[this.getAttribute("value")].stats[j].data.displayProperties.name + " " + user.characters[character].gear[this.getAttribute("value")].stats[j].value;
-                                stat.appendChild(text);
+                        var text = document.createElement("p");
+                        text.innerHTML = user.characters[character].gear[i].stats[j].data.displayProperties.name + " " + user.characters[character].gear[i].stats[j].value;
+                        stat.appendChild(text);
 
 
-                                stats.appendChild(stat);
-                            }
-                            box.appendChild(stats)
+                        stats.appendChild(stat);
+                    }
+                    back.appendChild(stats);
                             
-                            this.appendChild(box)
+                    weaponsdiv.appendChild(back);
                             //box.setAttribute("style", "transition: 5s; filter: opacity(1); transition-delay: 0s;")
 
 
+                    weaponsdiv.onclick = function(){
+                        if(this.getAttribute("default") == "true"){
+                            this.setAttribute("style",  "transform: rotateY(180deg);")
                             this.setAttribute("default", false)
                         }else{
-                            this.innerHTML=""; //emptying weaponsdiv
-                            this.setAttribute("style",  "transition: 1s; transform: rotateY(0deg);")
-                            
-                            var div = document.createElement("div");
-                            div.setAttribute("class", "topitemcontainer");
-
-                            var img = document.createElement("img");
-                            img.setAttribute("class", "itemimg");
-                            img.setAttribute("src", baseimgpath + user.characters[character].gear[this.getAttribute("value")].static.displayProperties.icon);
-                            div.appendChild(img);
-
-                            var div2 = document.createElement("div");
-                            div2.setAttribute("class", "itemtext");
-
-                            var text = document.createElement("h1");
-                            text.setAttribute("class", "itemname");
-                            text.innerHTML = user.characters[character].gear[this.getAttribute("value")].static.displayProperties.name;
-                            div2.appendChild(text);
-
-                            var text = document.createElement("h2");
-                            text.setAttribute("class", "itempower");
-                            text.innerHTML = user.characters[character].gear[this.getAttribute("value")].power;
-                            div2.appendChild(text);
-
-                            div.appendChild(div2);
-                            this.appendChild(div);
-
-                            for(var j = 0; j < user.characters[character].gear[this.getAttribute("value")].perks.length; j++){
-                                if("/img/misc/missing_icon_d2.png" != user.characters[character].gear[this.getAttribute("value")].perks[j].displayProperties.icon){
-                                    combined += "<div class=\"itemperkcontainer2\"><img class=\"itemimg2\" src=\""+
-                                            baseimgpath + user.characters[character].gear[this.getAttribute("value")].perks[j].displayProperties.icon +
-                                            "\"><h3>"+user.characters[character].gear[this.getAttribute("value")].perks[j].displayProperties.name+"</h3></div>"
-
-                                    div2 = document.createElement("div");
-                                    div2.setAttribute("class", "itemperkcontainer2");
-
-                                    img = document.createElement("img");
-                                    img.setAttribute("class", "itemimg2");
-                                    img.setAttribute("src", baseimgpath + user.characters[character].gear[this.getAttribute("value")].perks[j].displayProperties.icon);
-                                    div2.appendChild(img);
-
-                                    text = document.createElement("h3");
-                                    text.innerHTML = user.characters[character].gear[this.getAttribute("value")].perks[j].displayProperties.name;
-                                    div2.appendChild(text);
-
-                                    this.appendChild(div2);
-
-                                }
-                            }
-
+                            this.setAttribute("style", "transform: rotateY(0deg);")
                             this.setAttribute("default", true)
                         }
                     }
